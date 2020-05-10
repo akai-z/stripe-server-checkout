@@ -11,7 +11,7 @@ async function routeHandler(req, res) {
     const session = await stripe.createCheckoutSession(req.body)
     res.send({ sessionId: session.id })
   } catch (err) {
-    res.status(500).send('An error has occurred. Please contact the website administrator.')
+    res.status(500).send(err.message)
   }
 }
 
