@@ -11,11 +11,17 @@ async function createCheckoutSession(data) {
     shipping_address_collection: {
       allowed_countries: process.env.SHIPPING_ADDRESS_ALLOWED_COUNTRIES.split(',')
     },
+    payment_intent_data: {
+      application_fee_amount: process.env.APPLICATION_FEE_AMOUNT,
+    },
     success_url: `${process.env.DOMAIN}/${process.env.SUCCESS_URL_PATH}`,
     cancel_url: `${process.env.DOMAIN}/${process.env.CANCEL_URL_PATH}`
   }
 
-  return stripe.checkout.sessions.create(payload)
+  return stripe.checkout.sessions.create(
+    payload,
+    { stripeAccount: process.env.CONNECTED_STRIPE_ACCOUNT_ID }
+  )
 }
 
 function checkoutSession(sessionId) {
